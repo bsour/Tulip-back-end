@@ -1,0 +1,19 @@
+{
+  "name": "tulip-back-end",
+  "version": "1.0.0",
+  "description": "tulip backend service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuJi-2023/Tulip-back-end.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YuJi-2023/Tulip-back-end/issues"
+  },
+  "homepage": "https://github.com/YuJi-2023/Tulip-back-end#readme"
+}
