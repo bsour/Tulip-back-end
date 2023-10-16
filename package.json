@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/YuJi-2023/Tulip-back-end/issues"
   },
-  "homepage": "https://github.com/YuJi-2023/Tulip-back-end#readme"
+  "homepage": "https://github.com/YuJi-2023/Tulip-back-end#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
