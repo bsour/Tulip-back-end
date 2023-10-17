@@ -10,4 +10,7 @@ router.get("/", appC.getHomepage);
 // link '/profile' to ProfileController
 router.get("/profile", userC.showProfile);
 
+// Try: save data to database
+router.post("/profile", userC.saveToDatabase);
+
 module.exports = router;

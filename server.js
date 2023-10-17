@@ -10,6 +10,8 @@ const port = 3000;
 
 app.use("/", routes);
 
+app.use(express.json());
+
 mongoose
   .connect(
     "mongodb+srv://TulipAdmin:gkTnCQI5eaXj7Y7g@cluster0.hrj1rwg.mongodb.net/Tulip-API?retryWrites=true&w=majority"
@@ -23,4 +25,5 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
+
 module.exports = app;
