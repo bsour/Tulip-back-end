@@ -7,8 +7,7 @@ const userC = require("../controllers/ProfileController");
 // link '/' to  AppController
 router.get("/", appC.getHomepage);
 
-// link '/profile' to
-router.get("/profile");
-// link '/students/:major' to StudentsController
+// link '/profile' to ProfileController
+router.get("/profile", userC.showProfile);
 
 module.exports = router;
