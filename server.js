@@ -8,9 +8,9 @@ const e = require("express");
 const app = express();
 const port = 3000;
 
-app.use("/", routes);
-
 app.use(express.json());
+
+app.use("/", routes);
 
 mongoose
   .connect(

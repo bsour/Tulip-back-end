@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const UserSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema(
+  {
     name: {
       type: String,
       required: [true, "Please endter a user name"],
@@ -17,7 +18,7 @@ const UserSchema = mongoose.Schema({
       required: [true, "Please endter your city"],
     },
     mobile: {
-      type: Number,
+      type: String,
       required: false,
     },
     gender: {
@@ -41,12 +42,12 @@ const UserSchema = mongoose.Schema({
       type: Array,
       required: [true, "Please pick your preferences"],
     },
-  }
+  },
   {
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
