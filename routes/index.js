@@ -8,7 +8,11 @@ const userC = require("../controllers/ProfileController");
 router.get("/", appC.getHomepage);
 
 // link '/profile' to ProfileController
-router.get("/profile", userC.showProfile);
+router.get("/profile", userC.showUsers);
+
+//
+router.get("/profile/:id", userC.showUser);
+
 
 // Try: save data to database
 router.post("/profile", userC.saveToDatabase);

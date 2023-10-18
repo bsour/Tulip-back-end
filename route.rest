@@ -1,0 +1,27 @@
+GET http://localhost:3000/
+
+###
+
+GET http://localhost:3000/profile
+
+###
+
+GET http://localhost:3000/profile/652f572e8e21b9fd8eb0e5c3
+
+###
+
+POST http://localhost:3000/profile
+Content-Type: application/json
+
+{
+  "name": "Alice Johnson",
+  "email": "alice.johnson@example.com",
+  "password": "p@ssw0rd",
+  "city": "Los Angeles",
+  "mobile": "555-123-4567",
+  "gender": "Female",
+  "age": 28,
+  "url": "https://example.com/profile-picture.jpg",
+  "show_me": "Women",
+  "passion": ["Reading", "Singing", "Gardening"]
+}
