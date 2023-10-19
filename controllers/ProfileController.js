@@ -35,18 +35,19 @@ class ProfileController {
       response.status(500).json({ message: error.message });
     }
   }
-}
-
-async function getUser(req, res) {
-  try {
-    const { name } = req.params;
-    const subscriber = await User.findById(req.params.name);
-    if (subscriber == null) {
-      return res.status(404).json({ message: "Cannot find User" });
+  static async deleteUser(req, res) {
+    try {
+      const {id} = req.params;
+      const user = await User.findByIdAndDelete(id);
+      if (!user) {
+        return res.status(404).json({message: 'cannot find user'})
+      }
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({message: error.message});
     }
-    return res.status(200).json(subscriber);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
   }
 }
+
+
 module.exports = ProfileController;
