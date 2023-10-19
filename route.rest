@@ -6,10 +6,6 @@ GET http://localhost:3000/profile
 
 ###
 
-GET http://localhost:3000/profile/652f572e8e21b9fd8eb0e5c3
-
-###
-
 POST http://localhost:3000/profile
 Content-Type: application/json
 
@@ -25,3 +21,11 @@ Content-Type: application/json
   "show_me": "Women",
   "passion": ["Reading", "Singing", "Gardening"]
 }
+
+###
+
+GET http://localhost:3000/profile/652fcb1c8629d6176f407d28
+
+###
+
+DELETE http://localhost:3000/profile/652fcb1c8629d6176f407d28
