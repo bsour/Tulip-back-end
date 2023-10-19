@@ -10,9 +10,8 @@ router.get("/", appC.getHomepage);
 // link '/profile' to ProfileController
 router.get("/profile", userC.showUsers);
 
-//
+// link '/profile'/:name to ProfileController
 router.get("/profile/:id", userC.showUser);
-
 
 // Try: save data to database
 router.post("/profile", userC.saveToDatabase);

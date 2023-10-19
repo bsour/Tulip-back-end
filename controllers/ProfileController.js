@@ -9,8 +9,8 @@ class ProfileController {
 
   static async showUsers(req, res) {
     try {
-      const users = await User.find();
-      res.json(users);
+      const users = await User.find({});
+      res.status(200).json(users);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -18,8 +18,9 @@ class ProfileController {
 
   static async showUser(req, res) {
     try {
-      const user = getUser(req, res);
-      res.send(user.name);
+      const { id } = req.params;
+      const user = await User.findById(id);
+      res.status(200).send(user);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -36,16 +37,16 @@ class ProfileController {
   }
 }
 
-async function getUser(req, res, next) {
+async function getUser(req, res) {
   try {
-    subscriber = await User.findById(req.params.id);
+    const { name } = req.params;
+    const subscriber = await User.findById(req.params.name);
     if (subscriber == null) {
-      return res.status(404).json({ message: 'Cannot find User'});
+      return res.status(404).json({ message: "Cannot find User" });
     }
+    return res.status(200).json(subscriber);
   } catch (error) {
-    return res.status(500).json({ message: error.message});
+    return res.status(500).json({ message: error.message });
   }
-  //res.user = user;
-  next();
 }
 module.exports = ProfileController;
