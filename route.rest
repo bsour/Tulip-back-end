@@ -1,31 +1,31 @@
-GET http://localhost:3000/
+GET http://localhost:3000/api
 
 ###
 
-GET http://localhost:3000/profile
+GET http://localhost:3000/api/profile
 
 ###
 
-POST http://localhost:3000/profile
+POST http://localhost:3000/api/profile/
 Content-Type: application/json
 
 {
-  "name": "Alice Johnson",
-  "email": "alice.johnson@example.com",
-  "password": "p@ssw0rd",
-  "city": "Los Angeles",
-  "mobile": "555-123-4567",
-  "gender": "Female",
-  "age": 28,
-  "url": "https://example.com/profile-picture.jpg",
-  "show_me": "Women",
-  "passion": ["Reading", "Singing", "Gardening"]
-}
+    "name": "Michael Wilson",
+    "email": "michael.wilson@example.com",
+    "password": "passw0rd!",
+    "city": "Houston",
+    "gender": "Male",
+    "gender_preference": "Female",
+    "age": 35,
+    "age_preference": { "min": 30, "max": 45 },
+    "photo_url": "https://example.com/michael-wilson-avatar.jpg",
+    "hobbies": ["Cycling", "Reading", "Hiking"]
+  }
 
 ###
 
-GET http://localhost:3000/profile/652fcb1c8629d6176f407d28
+GET http://localhost:3000/api/profile/65335d9073204fcfb8dff94b
 
 ###
 
-DELETE http://localhost:3000/profile/652fcb1c8629d6176f407d28
+DELETE http://localhost:3000/api/profile/6531c904409f2e99a51f9e5b

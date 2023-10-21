@@ -3,19 +3,20 @@ const UserSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please endter a user name"],
+      required: [true, "Please enter a user name"],
     },
     email: {
       type: String,
-      required: [true, "Please endter email"],
+      required: [true, "Please enter email"],
+      unique: true,
     },
     password: {
       type: String,
-      required: [true, "Please endter password"],
+      required: [true, "Please enter password"],
     },
     city: {
       type: String,
-      required: [true, "Please endter your city"],
+      required: [true, "Please enter your city"],
     },
     mobile: {
       type: String,
@@ -23,22 +24,32 @@ const UserSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      required: [true, "Please endter email"],
+      required: [true, "Please enter gender"],
+    },
+    gender_preference: {
+      type: String,
+      required: [true, "Please enter gender"],
     },
     age: {
       type: Number,
-      required: [true, "Please endter your age"],
+      required: [true, "Please enter your age"],
+    },
+    age_preference: {
+      min: {
+        type: Number,
+        required: [true, 'Please enter the minimum age preference'],
+      },
+      max: {
+        type: Number,
+        required: [true, 'Please enter the maximum age preference'],
+      },
     },
     //url to dummy profile picture, could have a default avatar or app logo
-    url: {
+    photo_url: {
       type: String,
       required: false,
     },
-    show_me: {
-      type: String,
-      required: true,
-    },
-    passion: {
+    hobbies: {
       type: Array,
       required: [true, "Please pick your preferences"],
     },
