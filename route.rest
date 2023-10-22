@@ -10,22 +10,22 @@ POST http://localhost:3000/api/profile/
 Content-Type: application/json
 
 {
-    "name": "Michael Wilson",
-    "email": "michael.wilson@example.com",
-    "password": "passw0rd!",
-    "city": "Houston",
+    "name": "William Lee",
+    "email": "william.lee@example.com",
+    "password": "happy123",
+    "city": "Phoenix",
     "gender": "Male",
     "gender_preference": "Female",
     "age": 35,
-    "age_preference": { "min": 30, "max": 45 },
-    "photo_url": "https://example.com/michael-wilson-avatar.jpg",
-    "hobbies": ["Cycling", "Reading", "Hiking"]
-  }
+    "age_preference": { "min": 30, "max": 40 },
+    "photo_url": "https://example.com/william-lee-avatar.jpg",
+    "hobbies": ["Golf", "Traveling", "Movies"]
+}
 
 ###
 
-GET http://localhost:3000/api/profile/65335d9073204fcfb8dff94b
+GET http://localhost:3000/api/profile/65350a1c77dc199c416a0dc7
 
 ###
 
-DELETE http://localhost:3000/api/profile/6531c904409f2e99a51f9e5b
+DELETE http://localhost:3000/api/profile/65349ddbfd2d4281c094cca1
