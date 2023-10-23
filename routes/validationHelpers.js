@@ -52,7 +52,7 @@ exports.handleValidationResult = async (req, res, next) => {
     jwt.sign(
       payload, 
       config.get('jwtSecret'),
-      // { expiresIn: 3600000000 },
+      // { expiresIn: 360000 },
       (err, token) => {
         if (err) {
           throw err;
