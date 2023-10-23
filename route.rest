@@ -24,11 +24,11 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/profile/65335d5673204fcfb8dff945
+GET http://localhost:3000/api/profile/6535cf8a487a17c8eb3a2ac6
 
 ###
 
-DELETE http://localhost:3000/api/profile/65350a1c77dc199c416a0dc7
+DELETE http://localhost:3000/api/profile/6535cf8a487a17c8eb3a2ac6
 
 
 
