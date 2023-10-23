@@ -23,15 +23,22 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3000/api/auth/
+Content-Type: application/json
 
-GET http://localhost:3000/api/profile/6535cf8a487a17c8eb3a2ac6
+{
+    "email": "william.lee@example.com",
+    "password": "happy123"
+}
 
 ###
 
-DELETE http://localhost:3000/api/profile/6535cf8a487a17c8eb3a2ac6
+GET http://localhost:3000/api/profile/65364a7e8816411f9290a536
+  x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
 
+###
 
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I"
-}
+DELETE http://localhost:3000/api/profile/65364b898816411f9290a544
+
+
