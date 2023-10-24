@@ -17,9 +17,6 @@ router.get("/", appC.getHomepage);
 // get all users
 router.get("/profile", auth, userC.showUsers);
 
-// get a specific user
-router.get("/profile/:id", auth, userC.showUser);
-
 // create new user
 router.post(
   "/profile",
@@ -31,6 +28,12 @@ router.post(
     //userC.saveToDatabase(req, res);
   }
 );
+
+// get a specific user
+router.get("/profile/:id", auth, userC.showUser);
+
+// patch/update a specific user
+router.put("/profile/:id", auth, userC.updateUser);
 
 // delete a specific user
 router.delete("/profile/:id", userC.deleteUser);

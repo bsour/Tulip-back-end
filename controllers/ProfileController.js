@@ -35,19 +35,30 @@ class ProfileController {
       response.status(500).json({ message: error.message });
     }
   }
+
+  static async updateUser(request, response) {
+    try {
+      const { id } = request.params;
+      const user = await User.findByIdAndUpdate(id, request.body);
+      response.status(200).json(user);
+    } catch (error) {
+      console.log(error.message);
+      response.status(500).json({ message: error.message });
+    }
+  }
+
   static async deleteUser(req, res) {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const user = await User.findByIdAndDelete(id);
       if (!user) {
-        return res.status(404).json({message: 'cannot find user'})
+        return res.status(404).json({ message: "cannot find user" });
       }
       res.status(200).json(user);
     } catch (error) {
-      res.status(500).json({message: error.message});
+      res.status(500).json({ message: error.message });
     }
   }
 }
-
 
 module.exports = ProfileController;

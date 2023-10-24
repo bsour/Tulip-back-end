@@ -3,7 +3,7 @@ const UserSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please enter a user name"],
+      required: false,
     },
     email: {
       type: String,
@@ -16,32 +16,28 @@ const UserSchema = mongoose.Schema(
     },
     city: {
       type: String,
-      required: [true, "Please enter your city"],
-    },
-    mobile: {
-      type: String,
       required: false,
     },
     gender: {
       type: String,
-      required: [true, "Please enter gender"],
+      required: false,
     },
     gender_preference: {
       type: String,
-      required: [true, "Please enter gender"],
+      required: false,
     },
     age: {
       type: Number,
-      required: [true, "Please enter your age"],
+      required: false,
     },
     age_preference: {
       min: {
         type: Number,
-        required: [true, 'Please enter the minimum age preference'],
+        required: false,
       },
       max: {
         type: Number,
-        required: [true, 'Please enter the maximum age preference'],
+        required: false,
       },
     },
     //url to dummy profile picture, could have a default avatar or app logo
@@ -51,11 +47,11 @@ const UserSchema = mongoose.Schema(
     },
     hobbies: {
       type: Array,
-      required: [true, "Please pick your preferences"],
+      required: false,
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
   }
 );
 
