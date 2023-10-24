@@ -49,6 +49,15 @@ const UserSchema = mongoose.Schema(
       type: Array,
       required: false,
     },
+    // let's discuss how to match
+    match_with: {
+      type: String,
+      required: false,
+    },
+    match_id: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: false,

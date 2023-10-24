@@ -11,8 +11,8 @@ POST http://localhost:3000/api/profile/
 Content-Type: application/json
 
 {
-    "email": "angella.liam@example.com",
-    "password": "happy123"
+    "email": "belinda.shan@example.com",
+    "password": "excite123"
 }
 
 ###
@@ -21,7 +21,7 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmO
 Content-Type: application/json
 
 {   
-    "name": "Angella Liam",
+    "name": "Angella Ji",
     "city": "Phoenix",
     "gender": "Male",
     "gender_preference": "Female",
