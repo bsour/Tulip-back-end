@@ -15,7 +15,7 @@ const auth = require("../middleware/auth");
 router.get("/", appC.getHomepage);
 
 // get all users
-router.get("/profile", userC.showUsers);
+router.get("/profile", auth, userC.showUsers);
 
 // get a specific user
 router.get("/profile/:id", auth, userC.showUser);
@@ -27,7 +27,7 @@ router.post(
   handleValidationResult,
   (req, res) => {
     // If validation passes, continue to the route handler
-    console.log("User created!");
+    console.log("User created successfully!");
     //userC.saveToDatabase(req, res);
   }
 );
@@ -41,7 +41,7 @@ router.post(
   userLogInValidation,
   handleLogInValidationResult,
   (req, res) => {
-    console.log("logged in");
+    console.log("Logged in successfully!");
   }
 );
 
