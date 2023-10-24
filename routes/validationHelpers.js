@@ -52,8 +52,8 @@ exports.handleValidationResult = async (req, res, next) => {
       hobbies,
     });
 
-    const salt = await bcrpyt.genSalt(10);
-    user.password = await bcrpyt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
     await user.save();
 
     const payload = {

@@ -35,7 +35,7 @@ router.post(
 // delete a specific user
 router.delete("/profile/:id", userC.deleteUser);
 
-// what does this do?
+// Login validation
 router.post(
   "/auth",
   userLogInValidation,
