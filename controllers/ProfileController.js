@@ -9,7 +9,7 @@ class ProfileController {
 
   static async showUsers(req, res) {
     try {
-      const users = await User.find({});
+      const users = await User.find({}, "-password");
       res.status(200).json(users);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -19,7 +19,7 @@ class ProfileController {
   static async showUser(req, res) {
     try {
       const { id } = req.params;
-      const user = await User.findById(id);
+      const user = await User.findById(id, "-password");
       res.status(200).send(user);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -39,7 +39,10 @@ class ProfileController {
   static async updateUser(request, response) {
     try {
       const { id } = request.params;
-      const user = await User.findByIdAndUpdate(id, request.body);
+      const user = await User.findByIdAndUpdate(id, request.body, {
+        new: true,
+        select: "-password",
+      });
       response.status(200).json(user);
     } catch (error) {
       console.log(error.message);
@@ -50,7 +53,7 @@ class ProfileController {
   static async deleteUser(req, res) {
     try {
       const { id } = req.params;
-      const user = await User.findByIdAndDelete(id);
+      const user = await User.findByIdAndDelete(id, "-password");
       if (!user) {
         return res.status(404).json({ message: "cannot find user" });
       }

@@ -21,7 +21,7 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmO
 Content-Type: application/json
 
 {   
-    "name": "Angella Ji",
+    "name": "Angella CC",
     "city": "Phoenix",
     "gender": "Male",
     "gender_preference": "Female",
@@ -43,7 +43,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/profile/65364a7e8816411f9290a536
+GET http://localhost:3000/api/profile/65372d3f78a326086fa52477
   x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
 
