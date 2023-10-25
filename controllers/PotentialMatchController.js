@@ -46,7 +46,9 @@ class PotentialMatchController {
       res.status(500).json({ message: error.message });
     }
     //console.log("nearbyMatches filter implemented!");
-    console.log("genderMatches filter implemented!");
+    //console.log("genderMatches filter implemented!");
+    //console.log("ageMatches filter implemented!");
+    console.log("hobbyrMatches filter implemented!");
   }
 }
 
