@@ -18,6 +18,10 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    state: {
+      type: String,
+      required: false,
+    },
     gender: {
       type: String,
       required: false,
@@ -49,7 +53,7 @@ const UserSchema = mongoose.Schema(
       type: Array,
       required: false,
     },
-    // let's discuss how to match
+    // let's discuss
     match_with: {
       type: String,
       required: false,

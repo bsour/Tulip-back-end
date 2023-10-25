@@ -1,38 +1,42 @@
 GET http://localhost:3000/api
 
 ###
-
+//get all users
 GET http://localhost:3000/api/profile
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
 ###
-
+//sign up new user
 POST http://localhost:3000/api/profile/
 Content-Type: application/json
 
 {
-    "email": "Roger.Divas@example.com",
-    "password": "who123"
+    "email": "Moonee.Ponds@example.com",
+    "password": "match456",
+    "city": "Newcastle"
 }
 
 ###
-PUT  http://localhost:3000/api/profile/65372d3f78a326086fa52477
+//update a user by id
+PUT  http://localhost:3000/api/profile/653886dcf057fe467f278727
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 Content-Type: application/json
 
 {   
-    "name": "Angella CC",
-    "city": "Phoenix",
-    "gender": "Male",
-    "gender_preference": "Female",
-    "age": 35,
+    "name": "Lily Potter",
+    "gender": "Female",
+    "city": "Newcastle",
+    "state": "NSW",
+    "gender_preference": "Male",
+    "age": 26,
     "hobbies": [
-      "Golf",
+      "Music",
       "Traveling",
       "Movies"
     ]
 }
 ###
+//login validation
 POST http://localhost:3000/api/auth/
 Content-Type: application/json
 
@@ -42,18 +46,20 @@ Content-Type: application/json
 }
 
 ###
-
-GET http://localhost:3000/api/profile/65372d3f78a326086fa52477
-  x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
-
-
-###
-
-DELETE http://localhost:3000/api/profile/65364b898816411f9290a544
-
+//get a user by id
+GET http://localhost:3000/api/profile/6534a27ae761f37ffec751c7
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
 
 ###
-GET http://localhost:3000/api/potential_match/65372d3f78a326086fa52477
-  x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
+//delete a user by id
+DELETE http://localhost:3000/api/profile/653886dcf057fe467f278727
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
+
+
+###
+//get potential matches by id
+//test VIC male expect return VIC female of 2
+GET http://localhost:3000/api/potential_match/65335d5673204fcfb8dff945
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
