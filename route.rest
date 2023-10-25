@@ -59,7 +59,12 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmO
 
 ###
 //get potential matches by id
-//test VIC male expect return VIC female of 2
+//test VIC male expect 2 returns female based in VIC
 GET http://localhost:3000/api/potential_match/65335d5673204fcfb8dff945
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
+###
+//get potential matches by id
+//test NSW female Alice Smith, expect return order: Daniel with two shared hobbies and Bob with 1 shared hobby
+GET http://localhost:3000/api/potential_match/65335d7073204fcfb8dff947
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I

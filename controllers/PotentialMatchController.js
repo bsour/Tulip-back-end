@@ -20,8 +20,28 @@ class PotentialMatchController {
       const genderMatches = nearbyMatches.filter((match) => {
         return match.gender === preferredGender;
       });
+      //add age filter
+      const minAge = currentUser.age_preference.min;
+      const maxAge = currentUser.age_preference.max;
+      const ageMatches = genderMatches.filter((match) => {
+        return match.age >= minAge && match.age <= maxAge;
+      });
+      //add hobbies filter
+      const currentUserHobbies = new Set(currentUser.hobbies);
+      const hobbyMatches = ageMatches.map((match) => {
+        const sharedHobbies = match.hobbies.filter((hobby) =>
+          currentUserHobbies.has(hobby)
+        );
+        const score = sharedHobbies.length;
+        return { user: match, score };
+      });
+      //sorting scores in descending order
+      hobbyMatches.sort((a, b) => b.score - a.score);
+
       //res.status(200).send(nearbyMatches);
-      res.status(200).send(genderMatches);
+      //res.status(200).send(genderMatches);
+      //res.status(200).send(ageMatches);
+      res.status(200).send(hobbyMatches);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
