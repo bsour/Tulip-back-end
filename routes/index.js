@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const appC = require("../controllers/AppController");
 const userC = require("../controllers/UserController");
+const potentialC = require("../controllers/PotentialMatchController");
 const {
   userProfileValidation,
   handleValidationResult,
@@ -44,6 +45,9 @@ router.get("/profile/:id", auth, userC.showUser);
 router.put("/profile/:id", auth, userC.updateUser);
 
 // delete a user by id
-router.delete("/profile/:id", userC.deleteUser);
+router.delete("/profile/:id", auth, userC.deleteUser);
+
+// display potential match page by id
+router.get("/potential_match/:id", auth, potentialC.displayPotentialMatch);
 
 module.exports = router;
