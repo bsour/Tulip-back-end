@@ -11,8 +11,8 @@ POST http://localhost:3000/api/profile/
 Content-Type: application/json
 
 {
-    "email": "belinda.shan@example.com",
-    "password": "excite123"
+    "email": "Roger.Divas@example.com",
+    "password": "who123"
 }
 
 ###

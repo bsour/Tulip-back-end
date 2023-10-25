@@ -1,6 +1,6 @@
 const User = require("../models/UserModel");
 
-class ProfileController {
+class UserController {
   static showProfile(request, response) {
     response.statusCode = 200;
     response.setHeader("Content-Type", "text/plain");
@@ -26,7 +26,7 @@ class ProfileController {
     }
   }
 
-  static async saveToDatabase(request, response) {
+  static async createUser(request, response) {
     try {
       const user = await User.create(request.body);
       response.status(200).json(user);
@@ -64,4 +64,4 @@ class ProfileController {
   }
 }
 
-module.exports = ProfileController;
+module.exports = UserController;

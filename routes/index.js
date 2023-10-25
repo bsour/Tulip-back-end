@@ -1,8 +1,7 @@
 const express = require("express");
-
 const router = express.Router();
 const appC = require("../controllers/AppController");
-const userC = require("../controllers/ProfileController");
+const userC = require("../controllers/UserController");
 const {
   userProfileValidation,
   handleValidationResult,
@@ -10,6 +9,16 @@ const {
   handleLogInValidationResult,
 } = require("./validationHelpers");
 const auth = require("../middleware/auth");
+
+// login validation
+router.post(
+  "/auth",
+  userLogInValidation,
+  handleLogInValidationResult,
+  (req, res) => {
+    console.log("Logged in successfully!");
+  }
+);
 
 // get landing page
 router.get("/", appC.getHomepage);
@@ -23,29 +32,18 @@ router.post(
   userProfileValidation,
   handleValidationResult,
   (req, res) => {
-    // If validation passes, continue to the route handler
     console.log("User created successfully!");
-    //userC.saveToDatabase(req, res);
+    //userC.createUser(req, res);
   }
 );
 
-// get a specific user
+// get a user by id
 router.get("/profile/:id", auth, userC.showUser);
 
-// patch/update a specific user
+// update a user by id
 router.put("/profile/:id", auth, userC.updateUser);
 
-// delete a specific user
+// delete a user by id
 router.delete("/profile/:id", userC.deleteUser);
-
-// Login validation
-router.post(
-  "/auth",
-  userLogInValidation,
-  handleLogInValidationResult,
-  (req, res) => {
-    console.log("Logged in successfully!");
-  }
-);
 
 module.exports = router;
