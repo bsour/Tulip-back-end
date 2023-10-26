@@ -26,9 +26,21 @@ class PotentialMatchController {
       const ageMatches = genderMatches.filter((match) => {
         return match.age >= minAge && match.age <= maxAge;
       });
+
+      // filter by Match's preferences
+      const preferencesMatch = ageMatches.filter((match) => {
+        if (
+          (currentUser.gender === match.gender_preference || match.gender_preference === "Any") &&
+          (currentUser.age >= match.age_preference.min && currentUser.age <= match.age_preference.max)
+        ) {
+          return true;
+        }
+        return false;
+      })
+
       //add hobbies filter
       const currentUserHobbies = new Set(currentUser.hobbies);
-      const hobbyMatches = ageMatches.map((match) => {
+      const hobbyMatches = preferencesMatch.map((match) => {
         const sharedHobbies = match.hobbies.filter((hobby) =>
           currentUserHobbies.has(hobby)
         );
@@ -48,7 +60,7 @@ class PotentialMatchController {
     //console.log("nearbyMatches filter implemented!");
     //console.log("genderMatches filter implemented!");
     //console.log("ageMatches filter implemented!");
-    console.log("hobbyrMatches filter implemented!");
+    console.log("hobbyMatches filter implemented!");
   }
 }
 
