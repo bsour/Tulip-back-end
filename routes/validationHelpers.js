@@ -121,7 +121,7 @@ exports.handleLogInValidationResult = async (req, res, next) => {
         if (err) {
           throw err;
         }
-        res.json({ token });
+        res.json({ userId: user.id, token });
       }
     );
   } catch (error) {

@@ -30,13 +30,15 @@ class PotentialMatchController {
       // filter by Match's preferences
       const preferencesMatch = ageMatches.filter((match) => {
         if (
-          (currentUser.gender === match.gender_preference || match.gender_preference === "Any") &&
-          (currentUser.age >= match.age_preference.min && currentUser.age <= match.age_preference.max)
+          (currentUser.gender === match.gender_preference ||
+            match.gender_preference === "Any") &&
+          currentUser.age >= match.age_preference.min &&
+          currentUser.age <= match.age_preference.max
         ) {
           return true;
         }
         return false;
-      })
+      });
 
       //add hobbies filter
       const currentUserHobbies = new Set(currentUser.hobbies);
@@ -45,7 +47,7 @@ class PotentialMatchController {
           currentUserHobbies.has(hobby)
         );
         const score = sharedHobbies.length;
-        return { user: match, score };
+        return match;
       });
       //sorting scores in descending order
       hobbyMatches.sort((a, b) => b.score - a.score);
