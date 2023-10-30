@@ -33,7 +33,8 @@ exports.handleValidationResult = async (req, res, next) => {
       gender_preference,
       age,
       age_preference,
-      hobbies,
+      passion,
+      bio,
     } = req.body;
     let user = await User.findOne({ email });
     if (user) {
@@ -49,7 +50,8 @@ exports.handleValidationResult = async (req, res, next) => {
       gender_preference,
       age,
       age_preference,
-      hobbies,
+      passion,
+      bio,
     });
 
     const salt = await bcrypt.genSalt(10);

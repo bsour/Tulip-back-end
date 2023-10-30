@@ -53,6 +53,10 @@ const UserSchema = mongoose.Schema(
       type: Array,
       required: false,
     },
+    bio: {
+      type: String,
+      required: false,
+    },
     // let's discuss
     match_with: {
       type: String,
