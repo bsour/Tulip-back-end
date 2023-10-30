@@ -6,7 +6,7 @@ const cors = require("cors");
 
 const routes = require("./routes/index");
 
-const { uploadFile, getFileStream } = require('./routes/images');
+const { uploadFile, getFileStream } = require("./s3");
 
 const app = express();
 const port = 3001;
