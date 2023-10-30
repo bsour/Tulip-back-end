@@ -13,7 +13,7 @@ const s3 = new S3({
   secretAccessKey
 })
 // function that uploads a file to s3
-function upload(file) {
+function uploadFile(file) {
   const fileStream = fs.createReadStream(file.path)
 
   const uploadParams = {

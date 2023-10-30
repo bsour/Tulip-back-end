@@ -14,7 +14,7 @@ app.get('./images/:key', (req, res) => {
   readStream.pipe(res)
 })
 
-app.post('/images', upload,single('image'), async (req,res) => {
+app.post('/images', upload.single('image'), async (req,res) => {
   const file = req.file
   console.log(file)
   const result = await uploadFile(file)
