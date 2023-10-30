@@ -8,22 +8,44 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmO
 ###
 //sign up new user
 POST http://localhost:3001/api/profile/
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 Content-Type: application/json
 
 {
-    "email": "olivia.smith@example.com",
-    "password": "ohlala18",
-    "name": "Olivia Smith",
-    "age": 32,
-    "city": "Horbart",
-    "state": "TAS",
-    "age_preference": {
-        "min": 30,
-        "max": 40
-    },
-    "gender": "Female",
-    "gender_preference": "Male"
+   "age_preference": {
+    "min": 30,
+    "max": 45
+  },
+  "name": "Michael Jane",
+  "email": "michael.jane@example.com",
+  "password": "anypassword123",
+  "city": "Perth",
+  "gender": "Male",
+  "gender_preference": "Female",
+  "age": 38,
+  "photo_url": "https://example.com/michael-wilson-avatar.jpg",
+  "hobbies": [
+    "Hiking",
+    "Traveling",
+    "Photography"
+  ],
+  "state": "WA"
 }
+
+# {
+#     "email": "olivia.smith@example.com",
+#     "password": "ohlala18",
+#     "name": "Olivia Smith",
+#     "age": 32,
+#     "city": "Horbart",
+#     "state": "TAS",
+#     "age_preference": {
+#         "min": 30,
+#         "max": 40
+#     },
+#     "gender": "Female",
+#     "gender_preference": "Male"
+# }
 
 # {
 #     "email": "Moonee.Ponds@example.com",
@@ -32,22 +54,19 @@ Content-Type: application/json
 
 ###
 //update a user by id
-PUT  http://localhost:3001/api/profile/653886dcf057fe467f278727
+PUT  http://localhost:3001/api/profile/653b5d59151d273d553d2835
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 Content-Type: application/json
 
 {   
-    "name": "Lily Potter",
+    "age_preference": {
+        "min": 25,
+        "max": 45
+    },
     "gender": "Female",
-    "city": "Newcastle",
-    "state": "NSW",
     "gender_preference": "Male",
-    "age": 26,
-    "hobbies": [
-      "Music",
-      "Traveling",
-      "Movies"
-    ]
+    "name": "Shelly Belinda",
+    "age": 30
 }
 ###
 //login validation
@@ -74,8 +93,8 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmO
 
 ###
 //get potential matches by id
-//test VIC male expect 2 returns female based in VIC
-GET http://localhost:3001/api/potential_match/65335d5673204fcfb8dff945
+//test VIC female expect 3 returns male based in VIC
+GET http://localhost:3001/api/potential_match/653ee8ed19e72a1758ff2957
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
 ###

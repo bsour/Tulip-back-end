@@ -49,7 +49,7 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    hobbies: {
+    passion: {
       type: Array,
       required: false,
     },

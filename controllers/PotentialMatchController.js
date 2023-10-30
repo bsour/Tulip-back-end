@@ -41,9 +41,9 @@ class PotentialMatchController {
       });
 
       //add hobbies filter
-      const currentUserHobbies = new Set(currentUser.hobbies);
+      const currentUserHobbies = new Set(currentUser.passion);
       const hobbyMatches = preferencesMatch.map((match) => {
-        const sharedHobbies = match.hobbies.filter((hobby) =>
+        const sharedHobbies = match.passion.filter((hobby) =>
           currentUserHobbies.has(hobby)
         );
         const score = sharedHobbies.length;
