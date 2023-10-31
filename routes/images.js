@@ -16,7 +16,7 @@ imageRouter.get("/:key", (req, res) => {
   readStream.pipe(res);
 });
 
-imageRouter.post("/images", upload.single("image"), async (req, res) => {
+imageRouter.post("/", upload.single("image"), async (req, res) => {
   const file = req.file;
   console.log(file);
   

@@ -106,4 +106,4 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmO
 
 ###
 //get image test
-GET http://localhost:3001/api/images/100
+GET http://localhost:3001/api/images/30bc654382f27b4557bb8d71ab73513d
