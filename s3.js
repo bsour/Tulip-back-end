@@ -20,6 +20,7 @@ function uploadFile(file) {
     Bucket: bucketName,
     Body: fileStream,
     Key: file.filename,
+    ContentType: file.mimetype,
   };
 
   return s3.upload(uploadParams).promise();

@@ -25,7 +25,7 @@ imageRouter.post("/", upload.single("image"), async (req, res) => {
   console.log(result);
   const description = req.body.description;
   //res.send({ imagePath: `/uploads/${result.Key}` });
-  res.send({ photo_url: `${result.Location}` });
+  res.send({ photo_url: result.Location });
 });
 
 module.exports = imageRouter;
