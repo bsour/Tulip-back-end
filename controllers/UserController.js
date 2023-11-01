@@ -28,6 +28,10 @@ class UserController {
 
   static async createUser(request, response) {
     try {
+      const existingUser = await User.findOne({ email: request.body.email });
+      if (existingUser) {
+        return response.status(400).json({ message: 'Email already exists' });
+      }
       const user = await User.create(request.body);
       response.status(200).json(user);
     } catch (error) {
