@@ -1,11 +1,24 @@
 const mongoose = require("mongoose");
 const MatchSchema = mongoose.Schema(
   {
-    participant_1: {
+    user_1: {
       type: String,
       required: false,
     },
-    participant_2: {
+    user_2: {
+      type: String,
+      required: false,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "accepted", "declined"],
+      default: "pending",
+    },
+    isOngoing: {
+      type: Boolean,
+      default: true,
+    },
+    match_id: {
       type: String,
       required: false,
     },
