@@ -14,13 +14,13 @@ const MatchSchema = mongoose.Schema(
       enum: ["pending", "accepted", "declined"],
       default: "pending",
     },
-    isOngoing: {
-      type: Boolean,
-      default: true,
-    },
     match_id: {
       type: String,
       required: false,
+      in_match: {
+        type: Boolean,
+        default: false,
+      },
     },
   },
   {

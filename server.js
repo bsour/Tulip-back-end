@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const routes = require("./routes/index");
 const imageRoutes = require("./routes/images");
+const matchesRoutes = require("./routes/matches");
 
 const { uploadFile, getFileStream } = require("./s3");
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/api", routes);
 app.use("/api/images", imageRoutes);
+app.use("/api/matches", matchesRoutes);
 
 mongoose
   .connect(

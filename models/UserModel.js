@@ -44,7 +44,6 @@ const UserSchema = mongoose.Schema(
         required: false,
       },
     },
-    //url to dummy profile picture, could have a default avatar or app logo
     photo_url: {
       type: String,
       required: false,
@@ -57,14 +56,14 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    // let's discuss
-    match_with: {
-      type: String,
-      required: false,
-    },
+    // this is the id of the match objected for the two users in match and ready to chat.
     match_id: {
       type: String,
       required: false,
+      in_match: {
+        type: Boolean,
+        default: false,
+      },
     },
   },
   {

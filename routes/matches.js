@@ -1,70 +1,94 @@
 const express = require("express");
 const matchesRouter = express.Router();
+const Match = require("../models/MatchModel");
+const User = require("../models/UserModel");
 
 // Route for sending an invite and creating a match
-matchesRouter.post('/send-invite', async (req, res) => {
+matchesRouter.post("/send_invite", async (req, res) => {
   try {
     const senderId = req.body.senderId;
     const receiverId = req.body.receiverId;
 
     // Perform validation, e.g., checking if both senderId and receiverId are valid
 
-    // Check if a match already exists between the users (in either direction)
+    // Check if a user is in a match already exists between the users (in either direction)
     const existingMatch = await Match.findOne({
       $or: [
-        { user_1: senderId, user_2: receiverId },
-        { user_1: receiverId, user_2: senderId },
+        { user_1: senderId, in_match: true },
+        { user_2: senderId, in_match: true },
+        { user_1: receiverId, in_match: true },
+        { user_2: receiverId, in_match: true },
       ],
+      status: "accepted",
     });
 
     if (existingMatch) {
-      return res.status(400).json({ message: 'Match already exists.' });
+      return res
+        .status(400)
+        .json({ message: "one of the users is already in a match" });
     }
 
-    // Create a new match
+    // Create a new match invitation
     const newMatch = new Match({
       user_1: senderId,
       user_2: receiverId,
-      status: 'pending', 
-      isOngoing: true,
+      status: "pending",
+      match_id: senderId, //assign the match ID to the sender
     });
 
     await newMatch.save();
+    // update both users' match_id and in_match fields
+    // await User.updateMany(
+    //   { _id: { $in: [senderId, receiverId] } },
+    //   { match_id: newMatch._id, in_match: true }
+    // );
 
     // You can also implement other logic here, such as notifying the receiver about the invite
 
-    res.status(200).json({ message: 'Invite sent and match created.' });
+    res.status(200).json({ message: "Invite sent and match created." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({ message: "Internal server error." });
   }
 });
 
 // Route for accepting a match
-matchesRouter.post('/accept-match', async (req, res) => {
+matchesRouter.patch("/accept_match", async (req, res) => {
   try {
     const matchId = req.body.matchId; // Get the match ID
     const userId = req.body.userId; // Get the user ID accepting the match
 
     // Update the match's status to "accepted"
-    const updatedMatch = await Match.findByIdAndUpdate(matchId, { status: 'accepted' }, { new: true });
+    const updatedMatch = await Match.findByIdAndUpdate(
+      matchId,
+      { status: "accepted" },
+      { new: true }
+    );
 
     if (!updatedMatch) {
-      return res.status(404).json({ message: 'Match not found.' });
+      return res.status(404).json({ message: "Match not found." });
     }
 
     // Update the user schemas for both users with the match ID
-    await User.updateMany(
+    const updatedUsers = await User.updateMany(
       { _id: { $in: [updatedMatch.user_1, updatedMatch.user_2] } },
-      { match_id: updatedMatch._id },
+      { match_id: updatedMatch._id, in_match: true }
     );
+
+    const bothUsers = await User.find({
+      _id: { $in: [updatedMatch.user_1, updatedMatch.user_2] },
+      in_match: true,
+    });
 
     // You can implement other logic here, such as notifying the other user about the match acceptance
 
-    res.status(200).json({ message: 'Match accepted and updated.' });
+    res.status(200).json({
+      message: "Match accepted",
+      usersInMatch: bothUsers.map((user) => user._id),
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({ message: "Internal server error." });
   }
 });
 
