@@ -57,9 +57,11 @@ const UserSchema = mongoose.Schema(
       required: false,
     },
     // this is the id of the match objected for the two users in match and ready to chat.
-    match_id: {
-      type: String,
-      required: false,
+    conversation: {
+      id: {
+        type: String,
+        required: false,
+      },
       in_match: {
         type: Boolean,
         default: false,

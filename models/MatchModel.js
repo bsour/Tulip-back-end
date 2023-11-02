@@ -17,10 +17,10 @@ const MatchSchema = mongoose.Schema(
     match_id: {
       type: String,
       required: false,
-      in_match: {
-        type: Boolean,
-        default: false,
-      },
+      // in_match: {
+      //   type: Boolean,
+      //   default: false,
+      //},
     },
   },
   {

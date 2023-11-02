@@ -56,7 +56,7 @@ matchesRouter.post("/send_invite", async (req, res) => {
 matchesRouter.patch("/accept_match", async (req, res) => {
   try {
     const matchId = req.body.matchId; // Get the match ID
-    const userId = req.body.userId; // Get the user ID accepting the match
+    const receiverId = req.body.receiverId; // Get the user ID accepting the match
 
     // Update the match's status to "accepted"
     const updatedMatch = await Match.findByIdAndUpdate(
@@ -72,19 +72,31 @@ matchesRouter.patch("/accept_match", async (req, res) => {
     // Update the user schemas for both users with the match ID
     const updatedUsers = await User.updateMany(
       { _id: { $in: [updatedMatch.user_1, updatedMatch.user_2] } },
-      { match_id: updatedMatch._id, in_match: true }
+      {
+        conversation: {
+          id: updatedMatch._id,
+          in_match: true,
+        },
+      }
     );
 
-    const bothUsers = await User.find({
-      _id: { $in: [updatedMatch.user_1, updatedMatch.user_2] },
-      in_match: true,
-    });
+    // const bothUsers = await User.find({
+    //   _id: { $in: [updatedMatch.user_1, updatedMatch.user_2] },
+    //   in_match: true,
+    // });
 
-    // You can implement other logic here, such as notifying the other user about the match acceptance
+    // if (bothUsers.length !== 2) {
+    //   return res
+    //     .status(500)
+    //     .json({ message: "both users are not in the same match" });
+    // }
 
+    // const userIds = bothUsers.map((user) => user._id);
     res.status(200).json({
       message: "Match accepted",
-      usersInMatch: bothUsers.map((user) => user._id),
+      user_1: updatedMatch.user_1,
+      user_2: updatedMatch.user_2,
+      conversation_id: updatedMatch._id,
     });
   } catch (error) {
     console.error(error);
