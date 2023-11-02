@@ -14,10 +14,10 @@ matchesRouter.post("/send_invite", async (req, res) => {
     // Check if a user is in a match already exists between the users (in either direction)
     const existingMatch = await Match.findOne({
       $or: [
-        { user_1: senderId, in_match: true },
-        { user_2: senderId, in_match: true },
-        { user_1: receiverId, in_match: true },
-        { user_2: receiverId, in_match: true },
+        { user_1: senderId, match_id: { $exists: true } },
+        { user_2: senderId, match_id: { $exists: true } },
+        { user_1: receiverId, match_id: { $exists: true } },
+        { user_2: receiverId, match_id: { $exists: true } },
       ],
       status: "accepted",
     });
