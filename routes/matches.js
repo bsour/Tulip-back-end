@@ -145,4 +145,60 @@ matchesRouter.get('/get_all_matches', async (req, res) => {
   }
 });
 
+matchesRouter.patch('/end_conversation', async (req, res) => {
+  try {
+    const conversationId = req.body.conversationId;
+    const userId = req.body.userId;
+
+    // Update the match's status to "ended"
+    const updatedMatch = await Match.findByIdAndUpdate(
+      conversationId,
+      { status: 'ended' },
+      { new: true }
+    );
+
+    if (!updatedMatch) {
+      return res.status(404).json({ message: 'Match not found.' });
+    }
+
+    // Update the user's conversation information
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          'conversation.id': '',
+          'conversation.in_match': false,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // Update the conversation information for the other user in the match
+    const otherUserId = updatedMatch.user_1 === userId ? updatedMatch.user_2 : updatedMatch.user_1;
+    const otherUser = await User.findByIdAndUpdate(
+      otherUserId,
+      {
+        $set: {
+          'conversation.id': '',
+          'conversation.in_match': false,
+        },
+      },
+      { new: true }
+    );
+
+    if (!otherUser) {
+      return res.status(404).json({ message: 'Other user not found.' });
+    }
+
+    res.status(200).json({ message: 'Conversation left successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
 module.exports = matchesRouter;
