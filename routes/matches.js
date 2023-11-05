@@ -133,18 +133,7 @@ matchesRouter.patch("/accept_match", async (req, res) => {
   }
 });
 
-// Route to get all matches
-matchesRouter.get('/get_all_matches', async (req, res) => {
-  try {
-    const allMatches = await Match.find({}); // Retrieve all matches from the database
-
-    res.status(200).json(allMatches);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error retrieving all Matches' });
-  }
-});
-
+// Route to end a conversation
 matchesRouter.patch('/end_conversation', async (req, res) => {
   try {
     const conversationId = req.body.conversationId;
@@ -198,6 +187,18 @@ matchesRouter.patch('/end_conversation', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+// Route to get all matches in the database
+matchesRouter.get('/get_all_matches', async (req, res) => {
+  try {
+    const allMatches = await Match.find({}); // Retrieve all matches from the database
+
+    res.status(200).json(allMatches);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error retrieving all Matches' });
   }
 });
 
