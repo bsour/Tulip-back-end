@@ -11,7 +11,7 @@ const MatchSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "accepted", "declined"],
+      enum: ["pending", "accepted", "declined", "ended"],
       default: "pending",
     },
     match_id: {
