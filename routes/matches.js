@@ -88,8 +88,8 @@ matchesRouter.patch("/accept_match", async (req, res) => {
     const receiverId = req.body.receiverId; // Get the user ID accepting the match
 
     // Update the match's status to "accepted"
-    const updatedMatch = await Match.findByIdAndUpdate(
-      matchId,
+    const updatedMatch = await Match.findOneAndUpdate(
+      { match_id: matchId},
       { status: "accepted" },
       { new: true }
     );
@@ -130,6 +130,18 @@ matchesRouter.patch("/accept_match", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// Route to get all matches
+matchesRouter.get('/get_all_matches', async (req, res) => {
+  try {
+    const allMatches = await Match.find({}); // Retrieve all matches from the database
+
+    res.status(200).json(allMatches);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error.' });
   }
 });
 
