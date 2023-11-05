@@ -2,6 +2,7 @@ const express = require("express");
 const matchesRouter = express.Router();
 const Match = require("../models/MatchModel");
 const User = require("../models/UserModel");
+const { v4: uuidv4 } = require('uuid');
 
 // Route for sending an invite and creating a match
 matchesRouter.post("/send_invite", async (req, res) => {
@@ -12,20 +13,33 @@ matchesRouter.post("/send_invite", async (req, res) => {
     // Perform validation, e.g., checking if both senderId and receiverId are valid
 
     // Check if a user is in a match already exists between the users (in either direction)
-    const existingMatch = await Match.findOne({
-      $or: [
-        { user_1: senderId, match_id: { $exists: true } },
-        { user_2: senderId, match_id: { $exists: true } },
-        { user_1: receiverId, match_id: { $exists: true } },
-        { user_2: receiverId, match_id: { $exists: true } },
-      ],
-      status: "accepted",
-    });
+    // const existingMatch = await Match.findOne({
+    //   $or: [
+    //     { user_1: senderId, match_id: { $exists: true } },
+    //     { user_2: senderId, match_id: { $exists: true } },
+    //     { user_1: receiverId, match_id: { $exists: true } },
+    //     { user_2: receiverId, match_id: { $exists: true } },
+    //   ],
+    //   status: "accepted",
+    // });
 
-    if (existingMatch) {
+    // if (existingMatch) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "one of the users is already in a match" });
+    // }
+
+    const senderAlreadyMatched = await User.findOne({ _id: senderId, 'conversation.id': { $exists: true } });
+    const receiverAlreadyMatched = await User.findOne({ _id: receiverId, 'conversation.id': { $exists: true } });
+
+    if (senderAlreadyMatched && receiverAlreadyMatched && senderAlreadyMatched.conversation.id === receiverAlreadyMatched.conversation.id) {
       return res
         .status(400)
-        .json({ message: "one of the users is already in a match" });
+        .json({ message: "Users are already in a match with each other" });
+    } else if (senderAlreadyMatched || receiverAlreadyMatched) {
+      return res
+        .status(400)
+        .json({ message: "One of the users is already in a match" });
     }
 
     // Create a new match invitation
@@ -33,7 +47,7 @@ matchesRouter.post("/send_invite", async (req, res) => {
       user_1: senderId,
       user_2: receiverId,
       status: "pending",
-      match_id: senderId, //assign the match ID to the sender
+      match_id: uuidv4(), //assign the match ID to the sender
     });
 
     await newMatch.save();
