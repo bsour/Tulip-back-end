@@ -2,7 +2,7 @@ const express = require("express");
 const matchesRouter = express.Router();
 const Match = require("../models/MatchModel");
 const User = require("../models/UserModel");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 // Route for sending an invite and creating a match
 matchesRouter.post("/send_invite", async (req, res) => {
@@ -10,13 +10,21 @@ matchesRouter.post("/send_invite", async (req, res) => {
     const senderId = req.body.senderId;
     const receiverId = req.body.receiverId;
 
-    // Perform validation, e.g., checking if both senderId and receiverId are valid
+    const senderAlreadyMatched = await User.findOne({
+      _id: senderId,
+      "conversation.id": { $exists: true },
+    });
+    const receiverAlreadyMatched = await User.findOne({
+      _id: receiverId,
+      "conversation.id": { $exists: true },
+    });
 
-    
-    const senderAlreadyMatched = await User.findOne({ _id: senderId, 'conversation.id': { $exists: true } });
-    const receiverAlreadyMatched = await User.findOne({ _id: receiverId, 'conversation.id': { $exists: true } });
-
-    if (senderAlreadyMatched && receiverAlreadyMatched && senderAlreadyMatched.conversation.id === receiverAlreadyMatched.conversation.id) {
+    if (
+      senderAlreadyMatched &&
+      receiverAlreadyMatched &&
+      senderAlreadyMatched.conversation.id ===
+        receiverAlreadyMatched.conversation.id
+    ) {
       return res
         .status(400)
         .json({ message: "Users are already in a match with each other" });
@@ -46,13 +54,11 @@ matchesRouter.post("/send_invite", async (req, res) => {
     const existingInvite = await Match.findOne({
       user_1: senderId,
       user_2: receiverId,
-      status: 'pending',
+      status: "pending",
     });
 
     if (existingInvite) {
-      return res
-        .status(400)
-        .json({ message: "Invite has already been sent" });
+      return res.status(400).json({ message: "Invite has already been sent" });
     }
 
     // Create a new match invitation
@@ -60,19 +66,12 @@ matchesRouter.post("/send_invite", async (req, res) => {
       user_1: senderId,
       user_2: receiverId,
       status: "pending",
-      match_id: uuidv4(), //assign the match ID to the sender
+      match_id: uuidv4(),
     });
 
-    console.log(newMatch);
+    //console.log(newMatch);
 
     await newMatch.save();
-    // update both users' match_id and in_match fields
-    // await User.updateMany(
-    //   { _id: { $in: [senderId, receiverId] } },
-    //   { match_id: newMatch._id, in_match: true }
-    // );
-
-    // You can also implement other logic here, such as notifying the receiver about the invite
 
     res.status(200).json({ message: "Invite sent and match created." });
   } catch (error) {
@@ -89,7 +88,7 @@ matchesRouter.patch("/accept_match", async (req, res) => {
 
     // Update the match's status to "accepted"
     const updatedMatch = await Match.findOneAndUpdate(
-      { match_id: matchId},
+      { match_id: matchId },
       { status: "accepted" },
       { new: true }
     );
@@ -134,7 +133,7 @@ matchesRouter.patch("/accept_match", async (req, res) => {
 });
 
 // Route to end a conversation
-matchesRouter.patch('/end_conversation', async (req, res) => {
+matchesRouter.patch("/end_conversation", async (req, res) => {
   try {
     const conversationId = req.body.conversationId;
     const userId = req.body.userId;
@@ -142,12 +141,12 @@ matchesRouter.patch('/end_conversation', async (req, res) => {
     // Update the match's status to "ended"
     const updatedMatch = await Match.findByIdAndUpdate(
       conversationId,
-      { status: 'ended' },
+      { status: "ended" },
       { new: true }
     );
 
     if (!updatedMatch) {
-      return res.status(404).json({ message: 'Match not found.' });
+      return res.status(404).json({ message: "Match not found." });
     }
 
     // Update the user's conversation information
@@ -155,50 +154,53 @@ matchesRouter.patch('/end_conversation', async (req, res) => {
       userId,
       {
         $set: {
-          'conversation.id': '',
-          'conversation.in_match': false,
+          "conversation.id": "",
+          "conversation.in_match": false,
         },
       },
       { new: true }
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found.' });
+      return res.status(404).json({ message: "User not found." });
     }
 
     // Update the conversation information for the other user in the match
-    const otherUserId = updatedMatch.user_1 === userId ? updatedMatch.user_2 : updatedMatch.user_1;
+    const otherUserId =
+      updatedMatch.user_1 === userId
+        ? updatedMatch.user_2
+        : updatedMatch.user_1;
     const otherUser = await User.findByIdAndUpdate(
       otherUserId,
       {
         $set: {
-          'conversation.id': '',
-          'conversation.in_match': false,
+          "conversation.id": "",
+          "conversation.in_match": false,
         },
       },
       { new: true }
     );
 
     if (!otherUser) {
-      return res.status(404).json({ message: 'Other user not found.' });
+      return res.status(404).json({ message: "Other user not found." });
     }
 
-    res.status(200).json({ message: 'Conversation left successfully.' });
+    res.status(200).json({ message: "Conversation left successfully." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({ message: "Internal server error." });
   }
 });
 
 // Route to get all matches in the database
-matchesRouter.get('/get_all_matches', async (req, res) => {
+matchesRouter.get("/get_all_matches", async (req, res) => {
   try {
     const allMatches = await Match.find({}); // Retrieve all matches from the database
 
     res.status(200).json(allMatches);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error retrieving all Matches' });
+    res.status(500).json({ message: "Error retrieving all Matches" });
   }
 });
 

@@ -8,29 +8,33 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmO
 ###
 //sign up new user
 POST http://localhost:3001/api/profile/
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 Content-Type: application/json
 
 {
-   "age_preference": {
-    "min": 30,
-    "max": 45
-  },
-  "name": "Michael Jane",
   "email": "michael.jane@example.com",
-  "password": "anypassword123",
-  "city": "Perth",
-  "gender": "Male",
-  "gender_preference": "Female",
-  "age": 38,
-  "photo_url": "https://example.com/michael-wilson-avatar.jpg",
-  "hobbies": [
-    "Hiking",
-    "Traveling",
-    "Photography"
-  ],
-  "state": "WA"
+  "password": "anypassword"
 }
+
+# {
+#    "age_preference": {
+#     "min": 30,
+#     "max": 45
+#   },
+#   "name": "Michael Jane",
+#   "email": "michael.jane@example.com",
+#   "password": "anypassword123",
+#   "city": "Perth",
+#   "gender": "Male",
+#   "gender_preference": "Female",
+#   "age": 38,
+#   "photo_url": "https://example.com/michael-wilson-avatar.jpg",
+#   "hobbies": [
+#     "Hiking",
+#     "Traveling",
+#     "Photography"
+#   ],
+#   "state": "WA"
+# }
 
 # {
 #     "email": "olivia.smith@example.com",
