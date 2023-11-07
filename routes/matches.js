@@ -5,11 +5,10 @@ const User = require("../models/UserModel");
 const { v4: uuidv4 } = require("uuid");
 
 // Route for sending an invite and creating a match
-matchesRouter.post("/send_invite/:senderId/:receiverId", async (req, res) => {
+matchesRouter.post("/send_invite/", async (req, res) => {
   try {
-    const { senderId, receiverId } = req.params;
-    // const senderId = req.body.senderId;
-    // const receiverId = req.body.receiverId;
+    const senderId = req.body.senderId;
+    const receiverId = req.body.receiverId;
 
     const senderAlreadyMatched = await User.findOne({
       _id: senderId,
@@ -65,12 +64,10 @@ matchesRouter.post("/send_invite/:senderId/:receiverId", async (req, res) => {
 });
 
 // Route for accepting a match
-matchesRouter.patch("/accept_match/:matchId/:userId", async (req, res) => {
+matchesRouter.patch("/accept_match", async (req, res) => {
   try {
-    // const matchId = req.body.matchId; // Get the match ID
-    // const receiverId = req.body.receiverId; // Get the user ID accepting the match
-
-    const { matchId , userId } = req.params;
+    const matchId = req.body.matchId; // Get the match ID
+    const receiverId = req.body.receiverId; // Get the user ID accepting the match
 
     // Update the match's status to "accepted"
     const updatedMatch = await Match.findOneAndUpdate(
@@ -107,9 +104,10 @@ matchesRouter.patch("/accept_match/:matchId/:userId", async (req, res) => {
 });
 
 // Route to decline match
-matchesRouter.patch("/decline_match/:matchId/:userId", async (req, res) => {
+matchesRouter.patch("/decline_match", async (req, res) => {
   try {
-    const { matchId, userId } = req.params;
+    const matchId = req.body.matchId;
+    const userId = req.body.userId;
 
     // Update the match's status to "declined"
     const updatedMatch = await Match.findOneAndUpdate(
@@ -135,11 +133,10 @@ matchesRouter.patch("/decline_match/:matchId/:userId", async (req, res) => {
 });
 
 // Route to end a conversation
-matchesRouter.patch("/end_conversation/:conversationId/:userId", async (req, res) => {
+matchesRouter.patch("/end_conversation", async (req, res) => {
   try {
-    const { conversationId, userId } = req.params;
-    // const conversationId = req.body.conversationId;
-    // const userId = req.body.userId;
+    const conversationId = req.body.conversationId;
+    const userId = req.body.userId;
 
     // Update the match's status to "ended"
     const updatedMatch = await Match.findByIdAndUpdate(
