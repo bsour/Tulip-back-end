@@ -5,10 +5,11 @@ const User = require("../models/UserModel");
 const { v4: uuidv4 } = require("uuid");
 
 // Route for sending an invite and creating a match
-matchesRouter.post("/send_invite", async (req, res) => {
+matchesRouter.post("/send_invite/:senderId/:receiverId", async (req, res) => {
   try {
-    const senderId = req.body.senderId;
-    const receiverId = req.body.receiverId;
+    const { senderId, receiverId } = req.params;
+    // const senderId = req.body.senderId;
+    // const receiverId = req.body.receiverId;
 
     const senderAlreadyMatched = await User.findOne({
       _id: senderId,
@@ -33,23 +34,6 @@ matchesRouter.post("/send_invite", async (req, res) => {
         .status(400)
         .json({ message: "One of the users is already in a match" });
     }
-
-    // Check if a user is in a match already exists between the users (in either direction)
-    // const existingMatch = await Match.findOne({
-    //   $or: [
-    //     { user_1: senderId, match_id: { $exists: true } },
-    //     { user_2: senderId, match_id: { $exists: true } },
-    //     { user_1: receiverId, match_id: { $exists: true } },
-    //     { user_2: receiverId, match_id: { $exists: true } },
-    //   ],
-    //   status: "accepted",
-    // });
-
-    // if (existingMatch) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "one of the users is already in a match" });
-    // }
 
     const existingInvite = await Match.findOne({
       user_1: senderId,
@@ -81,14 +65,16 @@ matchesRouter.post("/send_invite", async (req, res) => {
 });
 
 // Route for accepting a match
-matchesRouter.patch("/accept_match", async (req, res) => {
+matchesRouter.patch("/accept_match/:matchId/:userId", async (req, res) => {
   try {
-    const matchId = req.body.matchId; // Get the match ID
-    const receiverId = req.body.receiverId; // Get the user ID accepting the match
+    // const matchId = req.body.matchId; // Get the match ID
+    // const receiverId = req.body.receiverId; // Get the user ID accepting the match
+
+    const { matchId , userId } = req.params;
 
     // Update the match's status to "accepted"
     const updatedMatch = await Match.findOneAndUpdate(
-      { match_id: matchId },
+      { match_id: matchId, user_2: userId },
       { status: "accepted" },
       { new: true }
     );
@@ -108,18 +94,6 @@ matchesRouter.patch("/accept_match", async (req, res) => {
       }
     );
 
-    // const bothUsers = await User.find({
-    //   _id: { $in: [updatedMatch.user_1, updatedMatch.user_2] },
-    //   in_match: true,
-    // });
-
-    // if (bothUsers.length !== 2) {
-    //   return res
-    //     .status(500)
-    //     .json({ message: "both users are not in the same match" });
-    // }
-
-    // const userIds = bothUsers.map((user) => user._id);
     res.status(200).json({
       message: "Match accepted",
       user_1: updatedMatch.user_1,
@@ -132,11 +106,40 @@ matchesRouter.patch("/accept_match", async (req, res) => {
   }
 });
 
-// Route to end a conversation
-matchesRouter.patch("/end_conversation", async (req, res) => {
+// Route to decline match
+matchesRouter.patch("/decline_match/:matchId/:userId", async (req, res) => {
   try {
-    const conversationId = req.body.conversationId;
-    const userId = req.body.userId;
+    const { matchId, userId } = req.params;
+
+    // Update the match's status to "declined"
+    const updatedMatch = await Match.findOneAndUpdate(
+      { match_id: matchId, user_2: userId },
+      { status: "declined" },
+      { new: true }
+    );
+
+    if (!updatedMatch) {
+      return res.status(404).json({ message: "Match not found." });
+    }
+
+    res.status(200).json({
+      message: "Match declined",
+      matchId: updatedMatch.match_id,
+      user_1: updatedMatch.user_1,
+      user_2: updatedMatch.user_2,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// Route to end a conversation
+matchesRouter.patch("/end_conversation/:conversationId/:userId", async (req, res) => {
+  try {
+    const { conversationId, userId } = req.params;
+    // const conversationId = req.body.conversationId;
+    // const userId = req.body.userId;
 
     // Update the match's status to "ended"
     const updatedMatch = await Match.findByIdAndUpdate(
@@ -189,6 +192,32 @@ matchesRouter.patch("/end_conversation", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// route to get all invites received by user
+matchesRouter.get("/get_invites/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const invitesReceived = await Match.find({ user_2: userId, status: "pending" });
+
+    res.status(200).json(invitesReceived);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving invites received" });
+  }
+});
+
+// route to get all invites sent by user
+matchesRouter.get("/invites_sent/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const invitesSent = await Match.find({ user_1: userId, status: "pending" });
+
+    res.status(200).json(invitesSent);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving invites sent" });
   }
 });
 
