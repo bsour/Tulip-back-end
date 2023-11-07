@@ -5,7 +5,7 @@ const User = require("../models/UserModel");
 const { v4: uuidv4 } = require("uuid");
 
 // Route for sending an invite and creating a match
-matchesRouter.post("/send_invite/", async (req, res) => {
+matchesRouter.post("/send_invite", async (req, res) => {
   try {
     const senderId = req.body.senderId;
     const receiverId = req.body.receiverId;
@@ -64,6 +64,7 @@ matchesRouter.post("/send_invite/", async (req, res) => {
 });
 
 // Route for accepting a match
+// &&&&&& add check if sender is in conversation before accept
 matchesRouter.patch("/accept_match", async (req, res) => {
   try {
     const matchId = req.body.matchId; // Get the match ID
@@ -193,10 +194,14 @@ matchesRouter.patch("/end_conversation", async (req, res) => {
 });
 
 // route to get all invites received by user
+// &&&&&& response with a list of sender ids to display in FE list
 matchesRouter.get("/get_invites/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    const invitesReceived = await Match.find({ user_2: userId, status: "pending" });
+    const invitesReceived = await Match.find({
+      user_2: userId,
+      status: "pending",
+    });
 
     res.status(200).json(invitesReceived);
   } catch (error) {
@@ -206,6 +211,7 @@ matchesRouter.get("/get_invites/:userId", async (req, res) => {
 });
 
 // route to get all invites sent by user
+// &&&&&& response with a list of receiver ids maybe to display in FE list
 matchesRouter.get("/invites_sent/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
