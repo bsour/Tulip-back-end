@@ -89,6 +89,7 @@ GET http://localhost:3001/api/profile/65335d7073204fcfb8dff947
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
 
+
 ###
 //delete a user by id
 DELETE http://localhost:3001/api/profile/653886dcf057fe467f278727
@@ -96,18 +97,90 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmO
 
 
 ###
+//get image test
+GET http://localhost:3001/api/images/30bc654382f27b4557bb8d71ab73513d
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
+
+
+
+// _____________________________________First Test(William Lee)_____________________________________
+###
+//get potential matches by id 
+//test TAS male William Lee, expect return : Mary Wilson, Olivia Smith.
+GET http://localhost:3001/api/potential_match/65365a091f2489ab5e3ae522
+Content-Type: application/json
+
+// _____________________STEP 1____________________
+// this test has been done by Insomnia
+###
+// post send_invite from William to Mary and create a new match object (654ac874f899d0e55081d1ac)
+POST http://localhost:3001/api/matches/send_invite
+
+{
+    "senderId": "65365a091f2489ab5e3ae522",
+    "receiverId": "653492ec016ba221aa4a73f8"
+}
+// get 200, with message "Invite sent and match created"
+
+
+###
+// patch accept_match for William & Mary and create a conversation, its conversation id is from the above match obj's _id
+PATCH  http://localhost:3001/api/matches/accept_match
+
+{
+    "matchId": "b8210ba1-d5fc-4dea-a9fe-f91a0ddbd96c", // the uuid assigned to the above match object, not the _id of it
+    "receiverId": "653492ec016ba221aa4a73f8"
+}
+// get 200, with res of an obj contains message, both user ids and conversation_id
+
+
+##
+// patch end_conversation for William & Mary
+PATCH  http://localhost:3001/api/matches/end_conversation
+{
+    "conversationId": "654ac874f899d0e55081d1ac", // the conversation id, same as the match obj _id created in the send_invite
+    "userId": "653492ec016ba221aa4a73f8" // either Mary's or William's user id
+}
+// get 200, with "Conversation left successfully"
+
+
+// _____________________STEP 2____________________
+###
+// post send_invite from William to Olivia and create a new match object (654ad0cb841a0f51a489d8c5)
+POST http://localhost:3001/api/matches/send_invite
+
+{
+    "senderId": "65365a091f2489ab5e3ae522",
+    "receiverId": "653b9bc6d37a35930412ee9b"
+}
+// get 200, with message "Invite sent and match created" but user_1 and user_2 hasn't been created in newly created match
+
+###
+// patch decline_match from  Oliva to William's invite
+PATCH  http://localhost:3001/api/matches/decline_match
+
+{
+    "matchId": "df9a622d-db19-4b82-b292-583baea53a2c", // the uuid assigned to the above match object, not the _id of it
+    "receiverId": "653b9bc6d37a35930412ee9b"
+}
+// get 200, with res of an obj contains message and match_id, the uuid
+
+
+
+// _______________________________Second Test( Emma Wilson)_____________________________________
+###
 //get potential matches by id
-//test VIC female expect 3 returns male based in VIC
+//test Emma Wilson expect 3 returns male based in VIC
 GET http://localhost:3001/api/potential_match/653ee8ed19e72a1758ff2957
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
 
 ###
-//get potential matches by id
-//test TAS male William Lee, expect return : Mary Wilson, Olivia Smith.
-GET http://localhost:3001/api/potential_match/65365a091f2489ab5e3ae522
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjUzNWNmOGE0ODdhMTdjOGViM2EyYWM2In0sImlhdCI6MTY5ODAyNTM1NX0.pdDNIhx2rk4pJOulgaaN2Xvr32Q7BE1OxvP_mLtUh4I
+// post send_invite from Match CC to Emma and create a new match object ()
+POST http://localhost:3001/api/matches/send_invite
+Content-Type: application/json
 
-
-###
-//get image test
-GET http://localhost:3001/api/images/30bc654382f27b4557bb8d71ab73513d
+{
+    "senderId": "65387369d1ada252f87579f9",
+    "receiverId": "653ee8ed19e72a1758ff2957"
+}
+// get 200, with message "Invite sent and match created" but still no user_1, user_2 updated in match obj

@@ -3,9 +3,10 @@ const matchesRouter = express.Router();
 const Match = require("../models/MatchModel");
 const User = require("../models/UserModel");
 const { v4: uuidv4 } = require("uuid");
+const auth = require("../middleware/auth");
 
 // Route for sending an invite and creating a match
-matchesRouter.post("/send_invite", async (req, res) => {
+matchesRouter.post("/send_invite", auth, async (req, res) => {
   try {
     const senderId = req.body.senderId;
     const receiverId = req.body.receiverId;
@@ -65,14 +66,28 @@ matchesRouter.post("/send_invite", async (req, res) => {
 
 // Route for accepting a match
 // &&&&&& add check if sender is in conversation before accept
-matchesRouter.patch("/accept_match", async (req, res) => {
+matchesRouter.patch("/accept_match", auth, async (req, res) => {
   try {
     const matchId = req.body.matchId; // Get the match ID
     const receiverId = req.body.receiverId; // Get the user ID accepting the match
 
+    // get sender id
+    const inviteMatch = await Match.findOne({ match_id: matchId });
+    const senderId = inviteMatch.user_1;
+
+    // check if sender is in a conversation
+    const senderAlreadyMatched = await User.findOne({
+      _id: senderId,
+      "conversation.id": { $exists: true },
+    });
+    // if sender in_conversation, then can't accept
+    if (senderAlreadyMatched) {
+      return res.status(400).json({ message: "Sender is already in a match" });
+    }
+
     // Update the match's status to "accepted"
     const updatedMatch = await Match.findOneAndUpdate(
-      { match_id: matchId, user_2: userId },
+      { match_id: matchId, user_2: receiverId },
       { status: "accepted" },
       { new: true }
     );
@@ -105,14 +120,14 @@ matchesRouter.patch("/accept_match", async (req, res) => {
 });
 
 // Route to decline match
-matchesRouter.patch("/decline_match", async (req, res) => {
+matchesRouter.patch("/decline_match", auth, async (req, res) => {
   try {
     const matchId = req.body.matchId;
-    const userId = req.body.userId;
+    const receiverId = req.body.receiverId;
 
     // Update the match's status to "declined"
     const updatedMatch = await Match.findOneAndUpdate(
-      { match_id: matchId, user_2: userId },
+      { match_id: matchId, user_2: receiverId },
       { status: "declined" },
       { new: true }
     );
@@ -134,7 +149,7 @@ matchesRouter.patch("/decline_match", async (req, res) => {
 });
 
 // Route to end a conversation
-matchesRouter.patch("/end_conversation", async (req, res) => {
+matchesRouter.patch("/end_conversation", auth, async (req, res) => {
   try {
     const conversationId = req.body.conversationId;
     const userId = req.body.userId;
@@ -193,31 +208,32 @@ matchesRouter.patch("/end_conversation", async (req, res) => {
   }
 });
 
-// route to get all invites received by user
-// &&&&&& response with a list of sender ids to display in FE list
-matchesRouter.get("/get_invites/:userId", async (req, res) => {
+// route to get all invites received by user and response with a list of sender ids
+matchesRouter.get("/get_invites/:userId", auth, async (req, res) => {
   try {
     const { userId } = req.params;
     const invitesReceived = await Match.find({
       user_2: userId,
       status: "pending",
     });
+    const inviteIds = invitesReceived.map((match) => match.user_1);
 
-    res.status(200).json(invitesReceived);
+    res.status(200).json(inviteIds);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving invites received" });
   }
 });
 
-// route to get all invites sent by user
-// &&&&&& response with a list of receiver ids maybe to display in FE list
-matchesRouter.get("/invites_sent/:userId", async (req, res) => {
+// route to get all invites sent by user and response with a list of receiver ids
+matchesRouter.get("/invites_sent/:userId", auth, async (req, res) => {
   try {
     const { userId } = req.params;
     const invitesSent = await Match.find({ user_1: userId, status: "pending" });
 
-    res.status(200).json(invitesSent);
+    const receiverIds = invitesSent.map((match) => match.user_2);
+
+    res.status(200).json(receiverIds);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving invites sent" });
@@ -225,7 +241,7 @@ matchesRouter.get("/invites_sent/:userId", async (req, res) => {
 });
 
 // Route to get all matches in the database
-matchesRouter.get("/get_all_matches", async (req, res) => {
+matchesRouter.get("/get_all_matches", auth, async (req, res) => {
   try {
     const allMatches = await Match.find({}); // Retrieve all matches from the database
 
