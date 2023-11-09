@@ -216,9 +216,9 @@ matchesRouter.get("/get_invites/:userId", auth, async (req, res) => {
       user_2: userId,
       status: "pending",
     });
-    const inviteIds = invitesReceived.map((match) => match.user_1);
+    //const inviteIds = invitesReceived.map((match) => match.user_1);
 
-    res.status(200).json(inviteIds);
+    res.status(200).json(invitesReceived);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving invites received" });
@@ -231,9 +231,9 @@ matchesRouter.get("/invites_sent/:userId", auth, async (req, res) => {
     const { userId } = req.params;
     const invitesSent = await Match.find({ user_1: userId, status: "pending" });
 
-    const receiverIds = invitesSent.map((match) => match.user_2);
+    //const receiverIds = invitesSent.map((match) => match.user_2);
 
-    res.status(200).json(receiverIds);
+    res.status(200).json(invitesSent);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving invites sent" });
