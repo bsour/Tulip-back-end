@@ -169,8 +169,10 @@ matchesRouter.patch("/end_conversation", auth, async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
-        $set: {
+        $unset: {
           "conversation.id": "",
+        },
+        $set: {
           "conversation.in_match": false,
         },
       },
@@ -189,8 +191,10 @@ matchesRouter.patch("/end_conversation", auth, async (req, res) => {
     const otherUser = await User.findByIdAndUpdate(
       otherUserId,
       {
-        $set: {
+        $unset: {
           "conversation.id": "",
+        },
+        $set: {
           "conversation.in_match": false,
         },
       },
