@@ -40,9 +40,14 @@ class PotentialMatchController {
         return false;
       });
 
+      // already in conversation filter
+      const notAlreadyInConversation = preferencesMatch.filter((match) => {
+        return !match.conversation.id;
+      });
+
       //add hobbies filter
       const currentUserHobbies = new Set(currentUser.passion);
-      const hobbyMatches = preferencesMatch.map((match) => {
+      const hobbyMatches = notAlreadyInConversation.map((match) => {
         const sharedHobbies = match.passion.filter((hobby) =>
           currentUserHobbies.has(hobby)
         );
