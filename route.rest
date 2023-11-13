@@ -78,9 +78,19 @@ POST http://localhost:3001/api/auth/
 Content-Type: application/json
 
 {
-    "email": "william.lee@example.com",
+    "email":"william.lee@example.com",
     "password": "happy123"
 }
+
+# {
+#     "email": "olivia.smith@example.com",
+#     "password": "happy123"
+# }
+
+# {
+#     "email": "mary.wilson@example.com",
+#     "password": "happy123"
+# }
 
 ###
 //get a user by id
