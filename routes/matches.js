@@ -57,7 +57,7 @@ matchesRouter.post("/send_invite", auth, async (req, res) => {
 
     await newMatch.save();
 
-    res.status(200).json({ message: "Invite sent and match created." });
+    res.status(200).json({ message: "Invite sent!" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error." });
