@@ -1,8 +1,10 @@
 const User = require("../models/UserModel");
+const Match = require("../models/MatchModel");
+const { v4: uuidv4 } = require("uuid");
 
-class PotentialMatchController {
+class MatchesController {
   static async displayPotentialMatch(req, res) {
-    // add location filter
+    // send invite
     try {
       const { id } = req.params;
       const currentUser = await User.findById(id, "-password");
@@ -16,20 +18,20 @@ class PotentialMatchController {
         return false;
       });
 
-      // add gender filter
+      // accept invite
       const preferredGender = currentUser.gender_preference;
       const genderMatches = nearbyMatches.filter((match) => {
         return match.gender === preferredGender;
       });
 
-      // add age filter
+      // decline invite
       const minAge = currentUser.age_preference.min;
       const maxAge = currentUser.age_preference.max;
       const ageMatches = genderMatches.filter((match) => {
         return match.age >= minAge && match.age <= maxAge;
       });
 
-      // add age and gender filter for match
+      // end conversation
       const preferencesMatch = ageMatches.filter((match) => {
         if (
           (currentUser.gender === match.gender_preference ||
@@ -42,31 +44,19 @@ class PotentialMatchController {
         return false;
       });
 
-      // check if match already in conversation
-      const notAlreadyInConversation = preferencesMatch.filter((match) => {
-        return !match.conversation.id;
-      });
-
-      // add passions filter
+      // get all matches
       const currentUserPassions = new Set(currentUser.passion);
       const passionMatches = notAlreadyInConversation.map((match) => {
         const sharedPassions = match.passion.filter((passion) =>
           currentUserPassions.has(passion)
         );
-        console.log("what is this sharedPassions", sharedPassions);
         const score = sharedPassions.length;
-        // sort scores in descending order !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        match.sort((a, b) => b.score - a.score);
         return match;
       });
-
-      res.status(200).send(passionMatches);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-
-    console.log("filters implemented!");
   }
 }
 
-module.exports = PotentialMatchController;
+module.exports = MatchesController;

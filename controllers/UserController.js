@@ -1,12 +1,6 @@
 const User = require("../models/UserModel");
 
 class UserController {
-  static showProfile(request, response) {
-    response.statusCode = 200;
-    response.setHeader("Content-Type", "text/plain");
-    response.send("will get Tuliper's profile datas");
-  }
-
   static async showUsers(req, res) {
     try {
       const users = await User.find({}, "-password");

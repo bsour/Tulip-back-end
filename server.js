@@ -19,6 +19,7 @@ app.use("/api", routes);
 app.use("/api/images", imageRoutes);
 app.use("/api/matches", matchesRoutes);
 
+//connect to mongoDB
 mongoose
   .connect(
     "mongodb+srv://TulipAdmin:gkTnCQI5eaXj7Y7g@cluster0.hrj1rwg.mongodb.net/Tulip-API?retryWrites=true&w=majority"

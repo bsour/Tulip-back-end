@@ -1,11 +1,12 @@
 const express = require("express");
 const matchesRouter = express.Router();
-const Match = require("../models/MatchModel");
-const User = require("../models/UserModel");
-const { v4: uuidv4 } = require("uuid");
+const MatchesC = require("../controllers/MatchesController");
+// const Match = require("../models/MatchModel");
+// const User = require("../models/UserModel");
+// const { v4: uuidv4 } = require("uuid");
 const auth = require("../middleware/auth");
 
-// Route for sending an invite and creating a match
+// Route for sending invite
 matchesRouter.post("/send_invite", auth, async (req, res) => {
   try {
     const senderId = req.body.senderId;
@@ -45,15 +46,13 @@ matchesRouter.post("/send_invite", auth, async (req, res) => {
       return res.status(400).json({ message: "Invite has already been sent" });
     }
 
-    // Create a new match invitation
+    // Create a new match object
     const newMatch = new Match({
       user_1: senderId,
       user_2: receiverId,
       status: "pending",
       match_id: uuidv4(),
     });
-
-    //console.log(newMatch);
 
     await newMatch.save();
 
@@ -64,8 +63,7 @@ matchesRouter.post("/send_invite", auth, async (req, res) => {
   }
 });
 
-// Route for accepting a match
-// &&&&&& add check if sender is in conversation before accept
+// Route for accepting invite
 matchesRouter.patch("/accept_match", auth, async (req, res) => {
   try {
     const matchId = req.body.matchId; // Get the match ID
@@ -80,7 +78,7 @@ matchesRouter.patch("/accept_match", auth, async (req, res) => {
       _id: senderId,
       "conversation.id": { $exists: true },
     });
-    // if sender in_conversation, then can't accept
+
     if (senderAlreadyMatched) {
       return res.status(400).json({ message: "Sender is already in a match" });
     }
@@ -119,7 +117,7 @@ matchesRouter.patch("/accept_match", auth, async (req, res) => {
   }
 });
 
-// Route to decline match
+// Route for declining invite
 matchesRouter.patch("/decline_match", auth, async (req, res) => {
   try {
     const matchId = req.body.matchId;
@@ -148,7 +146,7 @@ matchesRouter.patch("/decline_match", auth, async (req, res) => {
   }
 });
 
-// Route to end a conversation
+// Route for ending conversation
 matchesRouter.patch("/end_conversation", auth, async (req, res) => {
   try {
     const conversationId = req.body.conversationId;
@@ -183,7 +181,7 @@ matchesRouter.patch("/end_conversation", auth, async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    // Update the conversation information for the other user in the match
+    // Update the other user's conversation information
     const otherUserId =
       updatedMatch.user_1 === userId
         ? updatedMatch.user_2
@@ -212,7 +210,7 @@ matchesRouter.patch("/end_conversation", auth, async (req, res) => {
   }
 });
 
-// route to get all invites received by user and response with a list of sender ids
+// Route for getting all invites received
 matchesRouter.get("/get_invites/:userId", auth, async (req, res) => {
   try {
     const { userId } = req.params;
@@ -220,7 +218,6 @@ matchesRouter.get("/get_invites/:userId", auth, async (req, res) => {
       user_2: userId,
       status: "pending",
     });
-    //const inviteIds = invitesReceived.map((match) => match.user_1);
 
     res.status(200).json(invitesReceived);
   } catch (error) {
@@ -229,13 +226,11 @@ matchesRouter.get("/get_invites/:userId", auth, async (req, res) => {
   }
 });
 
-// route to get all invites sent by user and response with a list of receiver ids
+// Route for getting all invites sent
 matchesRouter.get("/invites_sent/:userId", auth, async (req, res) => {
   try {
     const { userId } = req.params;
     const invitesSent = await Match.find({ user_1: userId, status: "pending" });
-
-    //const receiverIds = invitesSent.map((match) => match.user_2);
 
     res.status(200).json(invitesSent);
   } catch (error) {
@@ -244,7 +239,7 @@ matchesRouter.get("/invites_sent/:userId", auth, async (req, res) => {
   }
 });
 
-// Route to get all matches in the database
+// Route for getting all matches objects in the database
 matchesRouter.get("/get_all_matches", auth, async (req, res) => {
   try {
     const allMatches = await Match.find({}); // Retrieve all matches from the database
