@@ -15,7 +15,7 @@ The Tulip Dating App's back-end is the powerhouse behind our platform's seamless
   <!-- AWS -->
   <code><img width="50" src="https://user-images.githubusercontent.com/25181517/183896132-54262f2e-6d98-41e3-8888-e40ab5a17326.png" alt="AWS" title="AWS"/></code>
   <!-- Socket.IO -->
-  <code><img width="50" src="https://user-images.githubusercontent.com/25181517/187070862-03888f18-2e63-4332-95fb-3ba4f2708e59.png" alt="Socket.IO" title="Socket.IO"/></code>
+  <code><img width="50" src="https://devicon-website.vercel.app/api/socketio/original.svg" alt="Socket.IO" title="Socket.IO"/></code>
   <!-- Postman -->
   <code><img width="50" src="https://user-images.githubusercontent.com/25181517/192109061-e138ca71-337c-4019-8d42-4792fdaa7128.png" alt="Postman" title="Postman"/></code>
   <!-- GitHub -->
