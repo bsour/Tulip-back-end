@@ -1,9 +1,9 @@
 const express = require("express");
 const matchesRouter = express.Router();
 const MatchesC = require("../controllers/MatchesController");
-// const Match = require("../models/MatchModel");
-// const User = require("../models/UserModel");
-// const { v4: uuidv4 } = require("uuid");
+const Match = require("../models/MatchModel");
+const User = require("../models/UserModel");
+const { v4: uuidv4 } = require("uuid");
 const auth = require("../middleware/auth");
 
 // Route for sending invite
