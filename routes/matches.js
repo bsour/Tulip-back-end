@@ -160,7 +160,7 @@ matchesRouter.patch("/end_conversation", auth, async (req, res) => {
     );
 
     if (!updatedMatch) {
-      return res.status(404).json({ message: "Match not found." });
+      return res.status(404).json({ message: "Conversation ended" });
     }
 
     // Update the user's conversation information
