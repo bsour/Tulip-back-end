@@ -53,14 +53,15 @@ class PotentialMatchController {
         const sharedPassions = match.passion.filter((passion) =>
           currentUserPassions.has(passion)
         );
-        console.log("what is this sharedPassions", sharedPassions);
         const score = sharedPassions.length;
-        // sort scores in descending order !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        match.sort((a, b) => b.score - a.score);
-        return match;
+        return { match, score };
       });
 
-      res.status(200).send(passionMatches);
+      // sort scores in descending order
+      passionMatches.sort((a, b) => b.score - a.score);
+      const sortedMatches = passionMatches.map((item) => item.match);
+
+      res.status(200).send(sortedMatches);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
