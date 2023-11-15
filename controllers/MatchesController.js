@@ -117,6 +117,7 @@ class MatchesController {
       res.status(500).json({ message: "Internal server error." });
     }
   }
+
   // decline invite
   static async declineInvite(req, res) {
     try {
@@ -145,6 +146,7 @@ class MatchesController {
       res.status(500).json({ message: "Internal server error." });
     }
   }
+
   // end conversation
   static async endConversation(req, res) {
     try {
@@ -208,6 +210,7 @@ class MatchesController {
       res.status(500).json({ message: "Internal server error." });
     }
   }
+
   // get invites received
   static async getInvitesReceived(req, res) {
     try {
@@ -223,6 +226,7 @@ class MatchesController {
       res.status(500).json({ message: "Error retrieving invites received" });
     }
   }
+
   // get invites sent
   static async getInvitesSent(req, res) {
     try {
@@ -238,11 +242,11 @@ class MatchesController {
       res.status(500).json({ message: "Error retrieving invites sent" });
     }
   }
+
   // get all matches
   static async getAllMatches(req, res) {
     try {
       const allMatches = await Match.find({}); // Retrieve all matches from the database
-
       res.status(200).json(allMatches);
     } catch (error) {
       console.error(error);
