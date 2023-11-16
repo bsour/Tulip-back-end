@@ -6,7 +6,7 @@ class PotentialMatchController {
     try {
       const { id } = req.params;
       const currentUser = await User.findById(id, "-password");
-      const allUsers = await User.find({}, "-password").exec();
+      const allUsers = await User.find({ _id: { $ne: id } }, "-password").exec();
       const nearbyMatches = allUsers.filter((match) => {
         if (match.city === currentUser.city) {
           return true;
