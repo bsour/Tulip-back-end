@@ -1,4 +1,5 @@
 # Tulip Dating App Back-end 🌷
+
 ![Tulip Banner](https://i.ibb.co/wsG3DzQ/Screenshot-2023-11-14-at-6-23-52-pm.png)
 
 The Tulip Dating App's back-end is the powerhouse behind our platform's seamless operation, enabling secure user interactions, real-time communication, and intelligent matchmaking. Here's how our chosen technologies contribute to a top-tier dating experience.
@@ -26,10 +27,10 @@ The Tulip Dating App's back-end is the powerhouse behind our platform's seamless
 
 - **Node.js**: A JavaScript runtime that allows us to build the server-side of the app with JavaScript. It's fast, scalable, and works well with real-time applications.
 - **Express**: A lightweight web application framework for Node.js that simplifies the development of web APIs, handles HTTP requests, and integrates middlewares for extended functionality.
-- **MongoDB**: A NoSQL database that stores data in flexible, JSON-like documents. In Tulip, it allows for efficient storage and retrieval of user profiles and chat messages.
-- **AWS**: Our back-end infrastructure is hosted on Amazon Web Services, which provides robust, scalable, and secure cloud computing resources.
+- **MongoDB**: A NoSQL database that stores data in flexible, JSON-like documents. In Tulip, it allows for efficient storage and retrieval of user profiles and match information.
+- **Render**: Tulip utilizes Render for CI/CD. Render provides a platform for automating the build, test, and deployment procersses, ensuring that changes to the codebase are seamlessly and efficiently integrated into the production enviroment. Render's infrastucture-as-code approach streamlines the deployment pipeline and enhances the overall agility and stability of the Tulip application.
 - **Socket.IO**: A JavaScript library for real-time web applications. It enables real-time, bidirectional, and event-based communication between web clients and servers. It's perfect for the chat feature in Tulip.
-- **Postman**: Used to design, test, and document APIs. It helps ensure that our endpoints behave as expected and makes it easier to communicate API specifications to the front-end team.
+- **Insomnia**: Used to design, test, and document APIs. It helps ensure that our endpoints behave as expected and makes it easier to communicate API specifications to the front-end team.
 - **GitHub**: Serves as our code repository and version control system, also facilitating collaboration through features like issues and pull requests.
 
 ## 🚀 Features
@@ -44,7 +45,7 @@ The Tulip Dating App's back-end is the powerhouse behind our platform's seamless
 
 To get the back-end up and running
 
- locally, clone the repository and follow these steps:
+locally, clone the repository and follow these steps:
 
 ```bash
 git clone https://github.com/YuJi-2023/Tulip-back-end

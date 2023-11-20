@@ -11,68 +11,6 @@ POST http://localhost:3001/api/profile/
 Content-Type: application/json
 
 
-# {
-#    "age_preference": {
-#     "min": 20,
-#     "max": 55
-#   },
-#   "name": "Mia H",
-#   "email": "mia.h@gmail.com",
-#   "password": "happy123",
-#   "city": "Melbourne",
-#   "gender": "Female",
-#   "gender_preference": "Female",
-#   "age": 30,
-#   "photo_url": "https://t4.ftcdn.net/jpg/02/72/15/33/360_F_272153347_vkmtiz5QvmhhESadbKyPqo0wsGoeW3sH.jpg",
-#   "hobbies": [
-#     "Reading",
-#     "Traveling",
-#     "Photography"
-#   ],
-#   "state": "VIC"
-# }
-
-{
-   "age_preference": {
-    "min": 25,
-    "max": 50
-  },
-  "name": "Lilian Cox",
-  "email": "lilian.cox@gmail.com",
-  "password": "happy123",
-  "city": "Melbourne",
-  "gender": "Female",
-  "gender_preference": "Female",
-  "age": 29,
-  "photo_url": "https://st.depositphotos.com/1011958/2196/i/450/depositphotos_21961571-stock-photo-portrait-of-beautiful-30-years.jpg",
-  "hobbies": [
-    "Reading",
-    "Traveling",
-    "Photography"
-  ],
-  "state": "VIC"
-}
-
-# {
-#     "email": "olivia.smith@example.com",
-#     "password": "ohlala18",
-#     "name": "Olivia Smith",
-#     "age": 32,
-#     "city": "Horbart",
-#     "state": "TAS",
-#     "age_preference": {
-#         "min": 30,
-#         "max": 40
-#     },
-#     "gender": "Female",
-#     "gender_preference": "Male"
-# }
-
-# {
-#     "email": "Moonee.Ponds@example.com",
-#     "password": "match456",
-# }
-
 ###
 //update a user by id
 PUT  http://localhost:3001/api/profile/653b5d59151d273d553d2835
