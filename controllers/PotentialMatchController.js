@@ -18,9 +18,14 @@ class PotentialMatchController {
 
       // add gender filter
       const preferredGender = currentUser.gender_preference;
-      const genderMatches = nearbyMatches.filter((match) => {
-        return match.gender === preferredGender;
-      });
+      let genderMatches;
+      if (preferredGender !== "All") {
+        genderMatches = nearbyMatches.filter((match) => {
+          return match.gender === preferredGender;
+        }
+      )} else {
+        genderMatches = nearbyMatches;
+      };
 
       // add age filter
       const minAge = currentUser.age_preference.min;
@@ -33,7 +38,7 @@ class PotentialMatchController {
       const preferencesMatch = ageMatches.filter((match) => {
         if (
           (currentUser.gender === match.gender_preference ||
-            match.gender_preference === "Any") &&
+            match.gender_preference === "All") &&
           currentUser.age >= match.age_preference.min &&
           currentUser.age <= match.age_preference.max
         ) {
