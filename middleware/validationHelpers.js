@@ -5,15 +5,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
-// Create user validation for user profile- not sure whether to use 'body' or 'check' method to validate
+// Sign up validation
 exports.userProfileValidation = [
-  //body("name").notEmpty().trim(),
   body("email", "Please include a valid email").isEmail().normalizeEmail(),
   body(
     "password",
     "Please enter a password with 6 or more characters"
   ).isLength({ min: 6 }),
-  // Add more validation rules for other fields
 ];
 
 // Validation result handler middleware
@@ -84,10 +82,8 @@ exports.handleValidationResult = async (req, res, next) => {
 
 // Login valadation
 exports.userLogInValidation = [
-  //body("name").notEmpty().trim(),
   body("email", "Please include a valid email").isEmail().normalizeEmail(),
   body("password", "Please enter a password").exists(),
-  // Add more validation rules for other fields
 ];
 
 // Validation result handler middleware

@@ -20,16 +20,6 @@ class UserController {
     }
   }
 
-  static async createUser(request, response) {
-    try {
-      const user = await User.create(request.body);
-      response.status(200).json(user);
-    } catch (error) {
-      console.log(error.message);
-      response.status(500).json({ message: error.message });
-    }
-  }
-
   static async updateUser(request, response) {
     try {
       const { id } = request.params;
